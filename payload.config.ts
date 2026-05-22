@@ -7,12 +7,11 @@ import sharp from 'sharp';
 
 import { Users } from './collections/Users';
 import { Media } from './collections/Media';
+import { Pages } from './app/(payload)/collections/Pages';
+import { Header } from './app/(payload)/globals/header/config';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
-
-// ENV file must be .env
-console.log('Payload Secret:', process.env.PAYLOAD_SECRET || null);
 
 export default buildConfig({
 	admin: {
@@ -22,20 +21,11 @@ export default buildConfig({
 		},
 	},
 	// Define and configure your collections in this array
-	collections: [
-		Users,
-		Media,
-		{
-			slug: 'pages',
-			fields: [
-				{
-					name: 'title',
-					type: 'text',
-					required: true,
-				},
-			],
-		},
-	],
+	// Better to have separate component
+	collections: [Users, Media, Pages],
+
+	// Global for declaring stuffs such as nav
+	globals: [Header],
 
 	// If you'd like to use Rich Text, pass your editor here
 	editor: lexicalEditor(),

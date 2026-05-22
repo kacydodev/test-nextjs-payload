@@ -7,8 +7,8 @@ import sharp from 'sharp';
 
 import { Users } from './collections/Users';
 import { Media } from './collections/Media';
-import { Pages } from './app/(payload)/collections/Pages';
-import { Header } from './app/(payload)/globals/header/config';
+import { Pages } from './collections/Pages';
+import { Header } from './globals/header/config';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

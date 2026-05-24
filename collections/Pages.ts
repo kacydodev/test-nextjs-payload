@@ -17,9 +17,58 @@ export const Pages: CollectionConfig = {
 		{
 			name: 'title',
 			type: 'text',
-			admin: {
-				description: 'name of the page',
-			},
+			required: true,
+		},
+		{
+			name: 'slug',
+			type: 'text',
+			required: true,
+		},
+		{
+			name: 'layout',
+			type: 'blocks',
+			required: true,
+			blocks: [
+				{
+					slug: 'hero',
+					fields: [
+						{
+							name: 'heading',
+							type: 'text',
+							required: true,
+						},
+						{
+							name: 'subheading',
+							type: 'richText',
+							required: true,
+						},
+						{
+							name: 'image',
+							type: 'upload',
+							relationTo: 'media',
+							required: true,
+						},
+						{
+							name: 'ctaButton',
+							label: 'Call-To-Action Button',
+							type: 'group',
+							required: true,
+							fields: [
+								{
+									name: 'label',
+									type: 'text',
+									required: true,
+								},
+								{
+									name: 'url',
+									type: 'text',
+									required: true,
+								},
+							],
+						},
+					],
+				},
+			],
 		},
 	],
 };

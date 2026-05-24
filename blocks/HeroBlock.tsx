@@ -1,6 +1,8 @@
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Page } from '@/payload-types';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 function HeroBlock({ block }: { block: Page['layout'][0] }) {
 	const heading = block.heading;
@@ -18,7 +20,12 @@ function HeroBlock({ block }: { block: Page['layout'][0] }) {
 				width={image.width}
 				height={image.height}
 			/>
-			<a href={ctaButton.url}>{ctaButton.label}</a>
+			{/* <a href={ctaButton.url}>{ctaButton.label}</a> */}
+			<Link
+				href={ctaButton.url}
+				className={buttonVariants({ variant: 'default' })}>
+				{ctaButton.label}
+			</Link>
 		</section>
 	);
 }

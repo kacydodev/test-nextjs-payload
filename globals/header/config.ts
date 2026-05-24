@@ -1,46 +1,5 @@
-import { Field, GlobalConfig } from 'payload';
+import { GlobalConfig } from 'payload';
 
-const GroupLink: Field = {
-	name: 'nav-group-link',
-	label: 'Nav Group Link',
-	type: 'group', // required
-	interfaceName: 'Meta', // optional
-
-	fields: [
-		{
-			name: 'title',
-			type: 'text',
-			required: true,
-			minLength: 1,
-			maxLength: 10,
-		},
-		{
-			name: 'link-items',
-			type: 'array',
-			fields: [
-				{
-					name: 'link-item',
-					type: 'relationship',
-					relationTo: 'pages',
-				},
-			],
-		},
-	],
-};
-
-const Link: Field = {
-	name: 'nav-link-items',
-	type: 'array',
-	fields: [
-		{
-			name: 'link-item',
-			type: 'relationship',
-			relationTo: 'pages',
-		},
-	],
-};
-
-// TODO: Remove ./(payload)/globals/Nav.ts
 export const Header: GlobalConfig = {
 	slug: 'header',
 	access: {
@@ -50,29 +9,74 @@ export const Header: GlobalConfig = {
 		// Add label to group, default: 'Global' on admin UI
 		group: 'Navigation',
 	},
-	// fields: [GroupLink, Link],
 	fields: [
 		{
 			name: 'array',
+			label: 'Header Navigation',
 			type: 'array',
 			fields: [
 				{
-					name: 'name',
-					type: 'select',
-					defaultValue: 'nav-link-item',
-					options: [
+					name: 'navLinkSelect',
+					label: false,
+					type: 'group',
+					fields: [
 						{
-							label: 'Link Item',
-							value: 'nav-link-item',
+							name: 'select',
+							type: 'radio',
+							defaultValue: 'nav-link-item',
+							options: [
+								{
+									label: 'Link Item',
+									value: 'nav-link-item',
+								},
+								{
+									label: 'Group Link',
+									value: 'nav-group-link',
+								},
+							],
+							required: true,
 						},
 						{
-							label: 'Group Link',
-							value: 'nav-group-link',
+							name: 'link-item',
+							type: 'relationship',
+							relationTo: 'pages',
+							admin: {
+								condition: (_, siblingData) =>
+									siblingData?.select === 'nav-link-item',
+							},
+						},
+						{
+							name: 'group-link',
+							type: 'group',
+							fields: [
+								{
+									name: 'title',
+									type: 'text',
+									required: true,
+									minLength: 1,
+									maxLength: 10,
+								},
+								{
+									name: 'link-items',
+									type: 'array',
+									fields: [
+										{
+											name: 'link-item',
+											type: 'relationship',
+											relationTo: 'pages',
+										},
+									],
+								},
+							],
+							admin: {
+								condition: (_, siblingData) =>
+									siblingData?.select === 'nav-group-link',
+							},
 						},
 					],
-					required: true,
 				},
 			],
+			required: true,
 		},
 	],
 };

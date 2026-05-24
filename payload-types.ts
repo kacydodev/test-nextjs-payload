@@ -353,12 +353,22 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
-  array?:
-    | {
-        name: 'nav-link-item' | 'nav-group-link';
-        id?: string | null;
-      }[]
-    | null;
+  array: {
+    navLinkSelect: {
+      select: 'nav-link-item' | 'nav-group-link';
+      'link-item'?: (string | null) | Page;
+      'group-link'?: {
+        title: string;
+        'link-items'?:
+          | {
+              'link-item'?: (string | null) | Page;
+              id?: string | null;
+            }[]
+          | null;
+      };
+    };
+    id?: string | null;
+  }[];
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -370,7 +380,23 @@ export interface HeaderSelect<T extends boolean = true> {
   array?:
     | T
     | {
-        name?: T;
+        navLinkSelect?:
+          | T
+          | {
+              select?: T;
+              'link-item'?: T;
+              'group-link'?:
+                | T
+                | {
+                    title?: T;
+                    'link-items'?:
+                      | T
+                      | {
+                          'link-item'?: T;
+                          id?: T;
+                        };
+                  };
+            };
         id?: T;
       };
   updatedAt?: T;
